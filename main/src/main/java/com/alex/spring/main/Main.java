@@ -1,6 +1,8 @@
 package com.alex.spring.main;
 
+import com.alex.spring.services.ProductService;
 import com.alex.spring.services.UserService;
+import com.alex.spring.services.dto.ProductDto;
 import com.alex.spring.services.dto.UserDto;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -20,6 +22,7 @@ public class Main {
 
         // create services
         UserService userService = context.getBean(UserService.class);
+        ProductService productService = context.getBean(ProductService.class);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         while(true) {
@@ -33,6 +36,9 @@ public class Main {
 
                 // fill the user
                 doUserActions(userService, inputs);
+
+                // fill product
+                doProductActions(productService, inputs);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,6 +58,17 @@ public class Main {
         }
     }
 
+    private static void doProductActions(ProductService productService, String[] inputs) {
+        if ("P".equals(inputs[0])) {
+            ProductDto dto = new ProductDto(inputs[1], inputs[2], inputs[3], inputs[4], inputs[5]);
+            productService.create(dto);
+            System.out.format("Product \"%s\" has been added successfully!%n", dto.getName());
+        } else if ("PL".equals(inputs[0])) {
+            System.out.println("List of products");
+            printList(productService.findAll());
+        }
+    }
+
     private static void printList(List<?> list) {
         if (list.size() == 0) {
             return;
@@ -61,6 +78,13 @@ public class Main {
             for (Object o : list) {
                 UserDto u = (UserDto) o;
                 System.out.println(u.toString());
+            }
+        }
+        if (list.get(0) instanceof ProductDto) {
+            for (Object o: list) {
+                ProductDto p = (ProductDto)o;
+                System.out.format("name: %s, price: %s, size: %s, color: %s, gender: %s%n",
+                        p.getName(), p.getPrice(), p.getSize(), p.getColor(), p.getGender());
             }
         }
     }
