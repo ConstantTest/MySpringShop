@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserDao {
     void register(User user);
     List<User> findAll();
+    User findUserById(Long id);
 }

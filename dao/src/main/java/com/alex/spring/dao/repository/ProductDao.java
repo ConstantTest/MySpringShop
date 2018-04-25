@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductDao {
     void create(Product product);
     List<Product> findAll();
+    Product getProductById(Long id);
 }

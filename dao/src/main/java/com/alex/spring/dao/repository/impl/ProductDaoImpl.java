@@ -27,4 +27,9 @@ public class ProductDaoImpl implements ProductDao {
     public List<Product> findAll() {
         return new ArrayList<Product>(products.values());
     }
+
+    @Override
+    public Product getProductById(Long id) {
+        return products.get(id);
+    }
 }

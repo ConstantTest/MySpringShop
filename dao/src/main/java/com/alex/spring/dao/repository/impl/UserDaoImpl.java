@@ -27,4 +27,9 @@ public class UserDaoImpl implements UserDao {
     public List<User> findAll() {
         return new ArrayList<User>(users.values());
     }
+
+    @Override
+    public User findUserById(Long id) {
+        return users.get(id);
+    }
 }
